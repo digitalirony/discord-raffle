@@ -2,10 +2,19 @@ require('dotenv').config()
 
 const fs = require('fs');
 const { prefix } = require('./config.json');
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const trivialdb = require('trivialdb');
+const ns = trivialdb.ns('mr-raffle');
+const db = ns.db('raffle')
 
+db.loading.then(() =>
+	{
+		console.log('DB loaded');
+	});
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const Discord = require('discord.js');
 const token = process.env.BOT_TOKEN;
+
 
 // Initialize Discord Bot with Custom Commands
 const client = new Discord.Client();

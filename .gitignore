@@ -9,3 +9,8 @@
 *.log
 /logs
 /logs/*
+
+#db file
+/db/
+/db/*
+*.sqlite

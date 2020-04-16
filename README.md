@@ -1,5 +1,4 @@
-# Discord Raffle Bot ![Version](https://img.shields.io/github/package-json/v/andrykvp/discord-raffle?style=flat-square) ![Code Size](https://img.shields.io/github/languages/code-size/andrykvp/discord-raffle?style=flat-square) ![License](https://img.shields.io/github/license/andrykvp/discord-raffle?style=flat-square)
->A simple Discord Bot to run Raffles 
+
 
 ## Run Locally
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -12,7 +11,7 @@ Clone or download this repository and run the following commands from your termi
 The commands assume your local clone of the repository is in your Downloads folder, and that you didn't renamed the downloaded folder.
 
 ```bash
-cd ~/Downloads/discord-raffle-master
+cd ~/Downloads/mrraffle
 npm install
 ```
 
@@ -40,7 +39,7 @@ Here's an example:
     "admins": [
        "Administrators",
        "Moderators",
-       "AndrykVP"
+       "Digitalirony"
     ],
     "color": "ffffff"
 }
@@ -55,6 +54,7 @@ npm run start
 
 ## Commands
 For the following examples, it's assumed you're using the prefix `#` as configured above. If not, you'd have to replace the command with whatever prefix you configured, so for example if your prefix is `!`, you'd type `!start` instead of `#start` 
+
 ### Start a Raffle
 To start a raffle all you use the command `#start`. 
 
@@ -62,32 +62,42 @@ To start a raffle all you use the command `#start`.
 #start
 ```
 
-This command will start a raffle with default parameters. It will set a time limit of 24 hours, and set a range of ticket numbers between 1 and 1,000 
+This command will start a raffle with default parameters. It will set a time limit of 30 days, and an undefined prize.
 
-![Default Raffle](screenshots/default_start.png)
+![Default Raffle](screenshots/raffle_start.jpg)
 
-You can also define custom parameters for time limit, range, and a custom message by typing them after the `#start` command. The order is important. It should always be: **time limit** first, in hours; then **range limit** being any positive integer over 1, and lastly **message**. 
+You can also define custom parameters for day limit, and the prize by typing them after the `#start` command. The order is important. It should always be: **day limit** first, in number days; and lastly **prize**. 
 
 ```javascript
-#start 48 500 This is a custom message
+#start 15 Chicken Dinner
 ```
 
-All of these parameters are optional, but they must be input in the right order. You can choose to set only the time period, for example, but if you want a custom limit then you must also input a time period.
+Both of these parameters are optional, but they must be input in the right order. You can choose to set only the number of days, for example, but if you want to set a prize then you must also input a day limit.
 
 ```javascript
-#start 24 50
+#start 24 
 ```
 
 ### Take a Number
-Once a raffle has started, anyone can take a number between the specified range (1 - 1000 by default). All they have to do is type `#number` followed by their desired number.
+Once a raffle has started, tickets can be given to a user. An Admin should type `!addtickets <username> <number of tickets>`(must be a user tag using the @sign) followed by their desired number of tickets. If no tickets are given, defaults to 1.
 
 ```javascript
-#number 136
+#addtickets @digitalirony 9999
+```
+Tickets given are just an incremental number. At this time no custom or random ticket numbers.
+
+##Status##
+During the raffle, someone may want to check how many tickets have been given out. What will the prize be? When will the drawing be?
+This can be done with the `!status` command. This can be ran by anyone. You can use !status without any options to see general information about the raffle, or pass in a user mention to retrieve how many tickets that specific user has. 
+
+```javascript
+#status @digitalirony
 ```
 
-The bot will check if there's still time for entries (as per the established time limit); then if the guild member has already selected a ticket number before, or if the ticket number is taken by someone else. If all goes well, the ticket will be added to the pool.
-
 ### Draw a Winner
-At the moment, drawing has to be done manually by typing `#draw`. The bot will then randomly select a winner from the pool and print a message, letting everyone know what the winning number was, and who it belongs to.
+At the moment, drawing has to be done manually by typing `#draw <#of winners>`. The bot will then randomly select a winner or winners from the pool and print a message, letting everyone know what the winning number or numbers were, and who it belongs to.
+If no number of winners is given, then 1 is assumed, and only one will be picked. If multiple winners are selected, they will all be unique. One person can not win twice. 
 
-## Development ![discord.js](https://img.shields.io/github/package-json/dependency-version/andrykvp/discord-raffle/discord.js?style=flat-square) ![store.js](https://img.shields.io/github/package-json/dependency-version/andrykvp/discord-raffle/store?style=flat-square) ![dotenv](https://img.shields.io/github/package-json/dependency-version/andrykvp/discord-raffle/dotenv?style=flat-square) ![last commit](https://img.shields.io/github/last-commit/andrykvp/discord-raffle?style=flat-square)
+```javascript
+#draw 3
+```
